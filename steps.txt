@@ -2,4 +2,4 @@ npm i -g create-react-app@1.5
 simple react snippets
 npx create-react-app my-app
 //for changing custom configs
-npm run eject
+npm run eject--->config
