@@ -1,5 +1,5 @@
-// var ->function
-// let->block
+// .var->functiom
+// let->block 
 
 // const->block
-// read only,cant initialize
+//cant overwrite
