@@ -59,22 +59,31 @@ class Counter extends React.Component {
        
 
         return (
-        <div>
-            {this.props.children}
+        <div className="row ">
+            <div className="col-1">
+            <button style={{fontSize:20}} className="{btn btn-primary btn-sm m2}  ">{this.formatCount()}</button>
+            </div>
+            <div className="col">
+            {/* {this.props.children} */}
+            <button style={{fontSize:20 , margin:5}} onClick ={()=>this.props.onIncrement(this.props.counter)} className="btn btn-secondary btn-sm ">+</button>
+          <button style={{fontSize:20}} onClick ={()=>this.props.onDecrement(this.props.counter)} className="btn btn-secondary btn-sm " disabled={this.props.counter.value === 0 ? "disabled":""}>-</button>
+          <button onClick={()=>this.props.onDelete(this.props.counter.id)} style={{fontSize:20 ,margin:5}} className="btn btn-danger btn-sm m2">Delete</button>
+            </div>
+          
          {/* <img src={this.state.imageurl} alt="image" /> */}
             {/* <span style={this.styles}className="badge badge-primary m-2" >{this.formatCount()}</span> */}
             {/* <h1>Hello WOrld</h1> */}
-            <button  className="btn btn-primary btn-lg  ">{this.formatCount()}</button>
+           
             {/* //Inline stles */}   
                                                  {/* onClick={this.arghandleinc} */}
-         <button style={{fontSize:20}} onClick ={()=>this.props.onIncrement(this.props.counter)} className="btn btn-secondary btn-sm ">Increment</button>
+        
          
 
          {/* true and string  --> string */}
          {/* {this.state.tags.length === 0 && <p>"Plese crete new tag"</p> }
          {this.rendertags()} */}
 
-         <button onClick={()=>this.props.onDelete(this.props.counter.id)} style={{fontSize:20}} className="btn btn-danger btn-sm m2">Delete</button>
+         
          </div>
 
          

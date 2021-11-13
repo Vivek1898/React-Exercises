@@ -15,4 +15,7 @@
 
 //  3.Unmount Phase 
 
-//  componentWillUnmount  -->deleting phase
+//  componentWillUnmount  -->deleting phase,called just efore component is removed
+
+
+//componentDidUpdate(prevProps,prevState)--- call when component data is updated
