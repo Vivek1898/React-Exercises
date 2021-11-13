@@ -10,7 +10,7 @@ const Pagination = props => {
     if(pagescount === 1) return null;
 //Lodash and range array
    const pages= _.range(1,pagescount+1);
-
+//MAp
     return(
      <nav>
         <ul className="pagination">
