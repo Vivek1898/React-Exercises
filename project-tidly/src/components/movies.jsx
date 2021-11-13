@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Like  from './common/like';
 import { getMovies} from '../services/fakeMovieService';
 
 class Movies extends React.Component {
@@ -12,7 +13,18 @@ class Movies extends React.Component {
         const movies =this.state.movies.filter(m => m._id !== movie._id);
         //in modern js if key==value so
         //Also this.setState({movies:movies})
-        this.setState({movies})
+        this.setState({movies});
+    };
+    handlelike= (movie) => {
+        console.log(movie);
+        //Clone
+        const movies=[...this.state.movies];
+        const index= movies.indexOf(movie);
+        //copying all properties
+        movies[index]={...movies[index]};
+        //it returns T if F else  true 
+        movies[index].liked=!movies[index].liked;
+        this.setState({movies});
     };
     render() { 
         const{ length :count}=this.state.movies;
@@ -33,6 +45,8 @@ class Movies extends React.Component {
                     <th>Rate</th>
                     {/* empty for delete */}
                     <th></th> 
+                    {/* For LIke component */}
+                    <th></th> 
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +56,10 @@ class Movies extends React.Component {
                     <td>{movie.genre.name}</td>
                     <td>{movie.numberInStock}</td>
                     <td>{movie.dailyRentalRate}</td>
-
+                    <td>
+                        <Like liked={movie.liked} onClick={() => this.handlelike(movie)}/>
+                    </td>
+                     
                     {/* Deletion */}
                     <td><button onClick={() =>this.handleDelete (movie)} className="btn btn-danger btn-sm">Delete</button></td>
                 </tr>)}
