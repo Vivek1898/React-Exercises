@@ -13,7 +13,10 @@ class Movies extends React.Component {
         pagesize:4
     };
     componentDidMount(){
-       this.setState({movies:getMovies(),genres:getGenres()}) ;
+        //all genres spreading data from func
+        const genres=[{name:'All Genres'},...getGenres()]
+    //    this.setState({movies:getMovies(),genres:getGenres()}) ;
+    this.setState({movies:getMovies(),genres}) ;
 
     };
 
@@ -41,7 +44,8 @@ class Movies extends React.Component {
         this.setState({currentpage : page});
     }
     handlegenreselect = genre =>{
-        this.setState({selectedgenre:genre});
+        //when ever we select genre we should reset the pge to one
+        this.setState({selectedgenre:genre,currentpage:1 });
     }
     render() { 
         const{ length :count}=this.state.movies;
@@ -51,8 +55,10 @@ class Movies extends React.Component {
         //if selected genre
         //filter acc to db.genre.id=== screenclick.genre.id
         //else display all movies
-
-      const filtered =selectedgenre ? allmovies.filter(m =>m.genre._id ===selectedgenre._id) : allmovies;
+//For fixing all genres selectedgenre._id if both true ..else get all movies
+      const filtered =selectedgenre && selectedgenre._id
+      ? allmovies.filter(m =>m.genre._id ===selectedgenre._id) 
+      : allmovies;
 
      //const movies=paginate(allmovies,currentpage,pagesize);
      //filtereation
