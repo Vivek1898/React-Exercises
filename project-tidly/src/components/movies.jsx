@@ -41,25 +41,37 @@ class Movies extends React.Component {
         this.setState({currentpage : page});
     }
     handlegenreselect = genre =>{
-        console.log(genre);
+        this.setState({selectedgenre:genre});
     }
     render() { 
         const{ length :count}=this.state.movies;
-        const{pagesize,currentpage,movies : allmovies}=this.state;
+        const{pagesize,currentpage,selectedgenre,movies : allmovies}=this.state;
         if(count ===0)
         return <p>There are no movies in Database</p>
-       
-     const movies=paginate(allmovies,currentpage,pagesize);
-        
+        //if selected genre
+        //filter acc to db.genre.id=== screenclick.genre.id
+        //else display all movies
+
+      const filtered =selectedgenre ? allmovies.filter(m =>m.genre._id ===selectedgenre._id) : allmovies;
+
+     //const movies=paginate(allmovies,currentpage,pagesize);
+     //filtereation
+     const movies=paginate(filtered,currentpage,pagesize);  
         return (
             //Making left and right columns
 <div className="row"> 
-<div className="col-2">
+<div className="col-3">
 
-    <Listgroup items={this.state.genres} onitemSelect={this.handlegenreselect}/>
+    <Listgroup items={this.state.genres}
+    // textProperty="name"
+    // valueProperty="_id"
+    //FOR ACTIVE CLASS SELECTED GENRE
+    selecteditem={this.state.selectedgenre}
+     onitemSelect={this.handlegenreselect}
+     />
 </div>
 <div className="col"> 
-<p>Showing {count} movies in database.</p>
+<p>Showing {filtered.length} movies in database.</p>
 {/* //table.table>thead>tr>th*4 --gen coding */}
 <table className="table">
             <thead>
@@ -95,8 +107,9 @@ class Movies extends React.Component {
 
 this.state.movies.length
 */}
-
-<Pagination itemscount={count}
+{/* itemscount={count} */}
+<Pagination 
+itemscount={filtered.length}
  pagesize={pagesize} 
  currentpage={currentpage}
  onPagechange={this.handlepagechange}
