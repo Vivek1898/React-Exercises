@@ -3,16 +3,16 @@ import Like  from './common/like';
 
 const MoviesTable = (props) => {
 
-    const {movies,onDelete,onLike}=props;
+    const {movies,onDelete,onLike ,onSort}=props;
     return ( 
 
 <table className="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Stock</th>
-                    <th>Rate</th>
+                    <th onClick={ ()=> onSort("title")}>Title</th>
+                    <th onClick={ ()=> onSort("genre.name")}>Genre</th>
+                    <th onClick={ ()=> onSort("numberInStock")}>Stock</th>
+                    <th onClick={ ()=> onSort("dailyRentaRate")}>Rate</th>
                     {/* empty for delete */}
                     <th></th> 
                     {/* For LIke component */}
@@ -27,11 +27,14 @@ const MoviesTable = (props) => {
                     <td>{movie.numberInStock}</td>
                     <td>{movie.dailyRentalRate}</td>
                     <td>
-                        <Like liked={movie.liked} onClick={() => this.onLike(movie)}/>
+                        <Like liked={movie.liked} 
+                        onClick={() => onLike(movie)}/>
                     </td>
                      
                     {/* Deletion */}
-                    <td><button onClick={() =>this.onDelete (movie)} className="btn btn-danger btn-sm">Delete</button></td>
+                    <td><button 
+                    onClick={() =>onDelete (movie)} 
+                    className="btn btn-danger btn-sm">Delete</button></td>
                 </tr>)}
              
             </tbody>

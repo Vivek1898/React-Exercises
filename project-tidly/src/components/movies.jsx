@@ -5,16 +5,19 @@ import { getMovies} from '../services/fakeMovieService';
 import { genres, getGenres } from '../services/fakeGenreService';
 import Pagination from './common/paginantion';
 import {paginate} from '../utils/paginate';
+import _ from 'lodash';
 class Movies extends React.Component {
     state={
         movies:[],
         genres:[],
         currentpage:1,
-        pagesize:4
+        pagesize:4,
+    sortColumn: {path:'title', order:'asc'}
     };
     componentDidMount(){
         //all genres spreading data from func
-        const genres=[{name:'All Genres'},...getGenres()]
+        //paass empty propo b/cc undefine
+        const genres=[{ _id:"",name:'All Genres'},...getGenres()]
     //    this.setState({movies:getMovies(),genres:getGenres()}) ;
     this.setState({movies:getMovies(),genres}) ;
 
@@ -47,9 +50,27 @@ class Movies extends React.Component {
         //when ever we select genre we should reset the pge to one
         this.setState({selectedgenre:genre,currentpage:1 });
     }
+    handleSort = path =>{
+        //First setstate 
+        //then go to render and do main work
+        //create new obj using spread operator
+        const sortColumn={...this.state.sortColumn};
+        if(sortColumn.path=== path)
+        sortColumn.order=( sortColumn.order ==='asc')?'desc':'asc';
+        else{
+            sortColumn.path=path;
+            sortColumn.order='asc';
+        }
+       this.setState({sortColumn});
+    }
     render() { 
         const{ length :count}=this.state.movies;
-        const{pagesize,currentpage,selectedgenre,movies : allmovies}=this.state;
+
+        const{pagesize,currentpage,
+            sortColumn,
+            selectedgenre,movies : allmovies}=this.state;
+
+
         if(count ===0)
         return <p>There are no movies in Database</p>
         //if selected genre
@@ -60,9 +81,15 @@ class Movies extends React.Component {
       ? allmovies.filter(m =>m.genre._id ===selectedgenre._id) 
       : allmovies;
 
+//Sorting
+//1st arg- input
+//2nd arg- array of properties
+
+const sorted=_.orderBy(filtered ,[sortColumn.path],[sortColumn.order]);
+
      //const movies=paginate(allmovies,currentpage,pagesize);
      //filtereation
-     const movies=paginate(filtered,currentpage,pagesize);  
+     const movies=paginate(sorted,currentpage,pagesize);  
         return (
             //Making left and right columns
 <div className="row"> 
@@ -79,7 +106,12 @@ class Movies extends React.Component {
 <div className="col"> 
 <p>Showing {filtered.length} movies in database.</p>
 {/* //table.table>thead>tr>th*4 --gen coding */}
-<MoviesTable movies={ movies} onLike={this.handlelike} onDelete={this.handleDelete}/>
+<MoviesTable 
+movies={ movies} 
+onLike={this.handlelike} 
+onDelete={this.handleDelete}
+onSort={this.handleSort}
+/>
 {/* //Pagination 
 
 this.state.movies.length
@@ -90,6 +122,7 @@ itemscount={filtered.length}
  pagesize={pagesize} 
  currentpage={currentpage}
  onPagechange={this.handlepagechange}
+ 
 
  />
 
