@@ -27,6 +27,7 @@ columns=[
               onSort={onSort}
               
               />
+              <TableBody data={movies}/>
                 <tbody>
                     {movies.map(movie =>  
                          <tr key={movie._id}>
