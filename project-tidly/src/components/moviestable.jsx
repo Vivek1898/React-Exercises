@@ -18,7 +18,7 @@ columns=[
 
     render() { 
        
-        const {movies,onDelete,onLike,onSort,sortColumn }=this.props;
+        const {movies,onSort,sortColumn }=this.props;
         return ( 
     
     <table className="table">

@@ -7,16 +7,23 @@ class TableBody extends React.Component {
   return _.get(item,column.path);
 
     };
+    creteKey =(item,column) =>{
+    return item._id +(column.path || column.key);
+    }
     render() { 
         const{data,columns}=this.props;
         return (
 <tbody>
    {
-       data.map(item =><tr >
+       data.map(item =><tr key={item._id} >
            {/* Acessing property dynamically using [] 
            2- Loadash get method
            */}
-      { columns.map(column => <td>{this.rendercell(item,column)}</td> )}     
+      { columns.map(column => 
+      <td key={this.creteKey(item,column)}>
+          {this.rendercell(item,column)}
+          
+          </td> )}     
        
     </tr>) 
 
