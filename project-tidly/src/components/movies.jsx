@@ -53,24 +53,24 @@ class Movies extends React.Component {
     handleSort = sortColumn =>{
       
        this.setState({sortColumn});
-    }
-    render() { 
-        const{ length :count}=this.state.movies;
-
-        const{pagesize,currentpage,
-            sortColumn,
-            selectedgenre,movies : allmovies}=this.state;
+    };
 
 
-        if(count ===0)
-        return <p>There are no movies in Database</p>
+
+    getPagedData =()=>{
         //if selected genre
         //filter acc to db.genre.id=== screenclick.genre.id
         //else display all movies
 //For fixing all genres selectedgenre._id if both true ..else get all movies
-      const filtered =selectedgenre && selectedgenre._id
-      ? allmovies.filter(m =>m.genre._id ===selectedgenre._id) 
-      : allmovies;
+const{pagesize,
+    currentpage,
+    sortColumn,
+    selectedgenre,
+    movies : allmovies}=this.state;
+
+const filtered =selectedgenre && selectedgenre._id
+? allmovies.filter(m =>m.genre._id ===selectedgenre._id) 
+: allmovies;
 
 //Sorting
 //1st arg- input
@@ -78,9 +78,25 @@ class Movies extends React.Component {
 
 const sorted=_.orderBy(filtered ,[sortColumn.path],[sortColumn.order]);
 
-     //const movies=paginate(allmovies,currentpage,pagesize);
-     //filtereation
-     const movies=paginate(sorted,currentpage,pagesize);  
+//const movies=paginate(allmovies,currentpage,pagesize);
+//filtereation
+const movies=paginate(sorted,currentpage,pagesize); 
+return {totalCount : filtered.length,data:movies};
+
+    };
+
+
+
+
+    render() { 
+        const{ length :count}=this.state.movies;
+
+        const{pagesize,currentpage,sortColumn,}=this.state;
+
+
+        if(count ===0)
+        return <p>There are no movies in Database</p>
+ const {totalCount,data :movies}= this.getPagedData();
         return (
             //Making left and right columns
 <div className="row"> 
@@ -95,7 +111,7 @@ const sorted=_.orderBy(filtered ,[sortColumn.path],[sortColumn.order]);
      />
 </div>
 <div className="col"> 
-<p>Showing {filtered.length} movies in database.</p>
+<p>Showing {totalCount} movies in database.</p>
 {/* //table.table>thead>tr>th*4 --gen coding */}
 <MoviesTable 
 movies={ movies} 
@@ -110,7 +126,7 @@ this.state.movies.length
 */}
 {/* itemscount={count} */}
 <Pagination 
-itemscount={filtered.length}
+itemscount={totalCount}
  pagesize={pagesize} 
  currentpage={currentpage}
  onPagechange={this.handlepagechange}

@@ -1,6 +1,5 @@
 import React ,{Component} from 'react';
-import TableHeader from './common/tableheader';
-import TableBody from './common/tablebody';
+import Table from './common/table'; 
 import Like  from './common/like';
 
 
@@ -20,25 +19,13 @@ columns=[
        
         const {movies,onSort,sortColumn }=this.props;
         return ( 
-    
-    <table className="table">
-              <TableHeader 
-              columns={this.columns}
-              sortColumn={sortColumn}
-              onSort={onSort}
-              
-              />
-              <TableBody 
-              columns={this.columns}
-              data={movies}
-              
-              
-              />
-               {/* Deletion */}
-               
-
-            </table>
-    
+    <Table  
+    columns={this.columns} 
+    data={movies}
+    sortColumn={sortColumn}
+    onSort={onSort}
+    />
+   
          );
     }
 }
