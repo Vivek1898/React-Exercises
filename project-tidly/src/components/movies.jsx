@@ -50,20 +50,8 @@ class Movies extends React.Component {
         //when ever we select genre we should reset the pge to one
         this.setState({selectedgenre:genre,currentpage:1 });
     }
-    handleSort = path =>{
-        //First setstate 
-        //then go to render and do main work
-        //create new obj using spread operator
-        const sortColumn={...this.state.sortColumn};
-        //Path same
-        if(sortColumn.path=== path)
-        //Then desc
-        sortColumn.order=( sortColumn.order ==='asc')?'desc':'asc';
-        else{
-            //else acs by default
-            sortColumn.path=path;
-            sortColumn.order='asc';
-        }
+    handleSort = sortColumn =>{
+      
        this.setState({sortColumn});
     }
     render() { 
@@ -111,6 +99,7 @@ const sorted=_.orderBy(filtered ,[sortColumn.path],[sortColumn.order]);
 {/* //table.table>thead>tr>th*4 --gen coding */}
 <MoviesTable 
 movies={ movies} 
+sortColumn={sortColumn}
 onLike={this.handlelike} 
 onDelete={this.handleDelete}
 onSort={this.handleSort}

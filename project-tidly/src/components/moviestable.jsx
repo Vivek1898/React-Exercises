@@ -3,18 +3,37 @@ import Like  from './common/like';
 
 
 class MoviesTable extends React.Component {
+
+raiseSort = path =>{
+      //First setstate 
+        //then go to render and do main work
+        //create new obj using spread operator
+        const sortColumn={...this.props.sortColumn};
+        //Path same
+        if(sortColumn.path=== path)
+        //Then desc
+        sortColumn.order=( sortColumn.order ==='asc')?'desc':'asc';
+        else{
+            //else acs by default
+            sortColumn.path=path;
+            sortColumn.order='asc';
+        }
+      this.props.onSort(sortColumn);
+};
+
+
     render() { 
        
-        const {movies,onDelete,onLike ,onSort}=this.props;
+        const {movies,onDelete,onLike }=this.props;
         return ( 
     
     <table className="table">
                 <thead>
                     <tr>
-                        <th onClick={ ()=> onSort("title")}>Title</th>
-                        <th onClick={ ()=> onSort("genre.name")}>Genre</th>
-                        <th onClick={ ()=> onSort("numberInStock")}>Stock</th>
-                        <th onClick={ ()=> onSort("dailyRentaRate")}>Rate</th>
+                        <th onClick={ ()=>this.raiseSort("title")}>Title</th>
+                        <th onClick={ ()=>this.raiseSort("genre.name")}>Genre</th>
+                        <th onClick={ ()=>this.raiseSort("numberInStock")}>Stock</th>
+                        <th onClick={ ()=>this.raiseSort("dailyRentaRate")}>Rate</th>
                         {/* empty for delete */}
                         <th></th> 
                         {/* For LIke component */}
