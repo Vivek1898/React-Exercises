@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Like  from './common/like';
+import MoviesTable from './moviestable';
 import Listgroup from './common/listgroup';
 import { getMovies} from '../services/fakeMovieService';
 import { genres, getGenres } from '../services/fakeGenreService';
@@ -79,36 +79,7 @@ class Movies extends React.Component {
 <div className="col"> 
 <p>Showing {filtered.length} movies in database.</p>
 {/* //table.table>thead>tr>th*4 --gen coding */}
-<table className="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Stock</th>
-                    <th>Rate</th>
-                    {/* empty for delete */}
-                    <th></th> 
-                    {/* For LIke component */}
-                    <th></th> 
-                </tr>
-            </thead>
-            <tbody>
-                {movies.map(movie =>  
-                     <tr key={movie._id}>
-                    <td>{movie.title}</td>
-                    <td>{movie.genre.name}</td>
-                    <td>{movie.numberInStock}</td>
-                    <td>{movie.dailyRentalRate}</td>
-                    <td>
-                        <Like liked={movie.liked} onClick={() => this.handlelike(movie)}/>
-                    </td>
-                     
-                    {/* Deletion */}
-                    <td><button onClick={() =>this.handleDelete (movie)} className="btn btn-danger btn-sm">Delete</button></td>
-                </tr>)}
-             
-            </tbody>
-        </table>
+<MoviesTable movies={ movies} onLike={this.handlelike} onDelete={this.handleDelete}/>
 {/* //Pagination 
 
 this.state.movies.length
