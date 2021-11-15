@@ -55,9 +55,12 @@ class Movies extends React.Component {
         //then go to render and do main work
         //create new obj using spread operator
         const sortColumn={...this.state.sortColumn};
+        //Path same
         if(sortColumn.path=== path)
+        //Then desc
         sortColumn.order=( sortColumn.order ==='asc')?'desc':'asc';
         else{
+            //else acs by default
             sortColumn.path=path;
             sortColumn.order='asc';
         }
