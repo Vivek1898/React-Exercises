@@ -102,7 +102,8 @@ return {totalCount : filtered.length,data:movies};
 <div className="row"> 
 <div className="col-3">
 
-    <Listgroup items={this.state.genres}
+    <Listgroup 
+    items={this.state.genres}
     // textProperty="name"
     // valueProperty="_id"
     //FOR ACTIVE CLASS SELECTED GENRE
@@ -113,6 +114,7 @@ return {totalCount : filtered.length,data:movies};
 <div className="col"> 
 <p>Showing {totalCount} movies in database.</p>
 {/* //table.table>thead>tr>th*4 --gen coding */}
+
 <MoviesTable 
 movies={ movies} 
 sortColumn={sortColumn}
@@ -120,11 +122,13 @@ onLike={this.handlelike}
 onDelete={this.handleDelete}
 onSort={this.handleSort}
 />
+
 {/* //Pagination 
 
 this.state.movies.length
 */}
 {/* itemscount={count} */}
+
 <Pagination 
 itemscount={totalCount}
  pagesize={pagesize} 
