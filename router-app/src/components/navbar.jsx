@@ -1,6 +1,7 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 //Link only updates cintent insted of all data refresh
+// it has handler onclick (prop) that prevent default behaviour of anchor tags
 const NavBar = () => {
   return (
     <ul>

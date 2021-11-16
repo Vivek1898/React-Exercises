@@ -16,9 +16,14 @@ class App extends Component {
         <NavBar />
         <div className="content">
   {/* While using switcg other routes willl be ignored */}
-        <Switch>
-<Route path="/products" component={Products}/>
-<Route path="/posts" component={Posts}/>
+  {/* Passing props */}
+     {/*  */}
+        <Switch> 
+          {/* Route params with : */}
+          <Route path="/products/:id" component={ProductDetails}/>
+       
+<Route path="/products" render={props => <Products sortBy="newest" {...props} />}/>
+<Route path="/posts/:year?/:month?" component={Posts}/>
 <Route path="/admin" component={Dashboard}/>
 <Route path="/"  component={Home}/>
 {/* Use exact for thath match exact path then render */}
