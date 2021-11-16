@@ -2,7 +2,10 @@ import React, { Component } from "react";
 
 class ProductDetails extends Component {
   handleSave = () => {
-    // Navigate to /products
+    //history
+    //this.props.history.push("/products");
+    //use for login pages if user press bacck button then dont go to login page
+    this.props.history.replace("/products");
   };
 
   render() {
