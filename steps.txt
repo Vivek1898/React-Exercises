@@ -3,3 +3,4 @@ simple react snippets
 npx create-react-app my-app
 //for changing custom configs
 npm run eject--->config
+npm i joi-browser

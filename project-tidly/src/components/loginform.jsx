@@ -1,4 +1,5 @@
 import React from 'react';
+import Joi from 'joi-browser';
 import Input from './common/input';
 
 class LoginForm extends React.Component {
@@ -8,22 +9,29 @@ class LoginForm extends React.Component {
 //     this.username.current.focus();
 // }
 state={
-    account:{username:'',password:''},
-    errors:{
-        username:'Username is Required'
-    }
-}
+    account:{username:"",password:""},
+    errors:{}
+};
+schema={
+ username:Joi.string().required().label("Username"),
+ password:Joi.string().required().label("Password")
+
+};
+
+
 //Using array for errors easy to find using find method
 //thahts why we use object
 validate=()=>{
-    const errors={};
-    const{account}=this.state;
-    if(account.username.trim()==='')
-     errors.username='Username is required ';
+    const options={abortEarly:false}
+const result=Joi.validate(this.state.account,this.schema,options);
+if(!result.error) return null;
+const errors={};
+for(let item of result.error.details)
+    errors[item.path[0]]=item.message;
+    return errors;
 
-  if(account.password.trim()==='')
-  errors.password='Password is required ';
-  return Object.keys(errors).length===0 ? null : errors;
+
+
    };
     
 //handling form submisson bc it reloads whole page on refresh
@@ -40,10 +48,10 @@ if(errors) return;
 
     validateProperty =input =>{
         if(input.name=='username'){
-         if(input.value.trim()==='') return 'Username is Required';
+         if(input.value.trim()==="") return 'Username is Required';
 } 
 if(input.name=='password'){
-    if(input.value.trim()==='') return 'Password is Required';
+    if(input.value.trim()==="") return 'Password is Required';
 } 
     }
 
