@@ -38,14 +38,28 @@ if(errors) return;
 
     };
 
+    validateProperty =input =>{
+        if(input.name=='username'){
+         if(input.value.trim()==='') return 'Username is Required';
+} 
+if(input.name=='password'){
+    if(input.value.trim()==='') return 'Password is Required';
+} 
+    }
 
 //also e.currentTarget 
 handleChange=({currentTarget:input})=>{
+   const errors={...this.state.errors};
+    //On change
+    const errorMsg=this.validateProperty(input);
+    if(errorMsg) errors[input.name]=errorMsg;
+    else delete errors[input.name];
+     
     //clone
     const account={...this.state.account};
     account[input.name]=input.value;
-    this.setState({account});
-}
+    this.setState({account,errors});
+};
 
     render() { 
         const{account,errors}=this.state;
