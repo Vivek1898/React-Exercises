@@ -46,13 +46,12 @@ if(errors) return;
 
     };
 
-    validateProperty =input =>{
-        if(input.name=='username'){
-         if(input.value.trim()==="") return 'Username is Required';
-} 
-if(input.name=='password'){
-    if(input.value.trim()==="") return 'Password is Required';
-} 
+    validateProperty =({name,value}) =>{
+        const obj={[name]:value};
+        const schema={[name]:this.schema[name]};
+      const{error}= Joi.validate(obj,schema);
+      if(!error) return null;
+      return error.details[0].message;
     }
 
 //also e.currentTarget 
