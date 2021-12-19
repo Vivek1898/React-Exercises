@@ -4,3 +4,5 @@ npx create-react-app my-app
 //for changing custom configs
 npm run eject--->config
 npm i joi-browser
+npm i axios
+npm i react-toastpfy@4.1  
