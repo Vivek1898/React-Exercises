@@ -2,7 +2,7 @@ import React from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
 import Input from './common/input';
-import {login} from "../services/authService";
+import auth from "../services/authService";
 
 class LoginForm extends Form {
 // username=React.createRef();
@@ -20,8 +20,8 @@ state={
         try {
             const {data}=this.state;
             //Store jwt on login
-        const {data:jwt}  =  await  login(data.username,data.password);
-        localStorage.setItem("token",jwt);
+        await auth.login(data.username,data.password);
+        
         //redirect using history
         window.location="/";
             
