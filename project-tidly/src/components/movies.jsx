@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import MoviesTable from './moviestable';
 import Listgroup from './common/listgroup';
-
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { getMovies} from '../services/fakeMovieService';
-import { genres, getGenres } from '../services/fakeGenreService';
+import { deleteMovie, getMovies} from '../services/movieService';
+import { genres, getGenres } from '../services/genreSrevice';
 import Pagination from './common/paginantion';
 import {paginate} from '../utils/paginate';
 import _ from 'lodash';
@@ -19,22 +19,37 @@ class Movies extends React.Component {
         pagesize:4,
     sortColumn: {path:'title', order:'asc'}
     };
-    componentDidMount(){
+    async componentDidMount(){
         //all genres spreading data from func
         //paass empty propo b/cc undefine
-        const genres=[{ _id:"",name:'All Genres'},...getGenres()]
+        const{data}= await getGenres();
+        const genres=[{ _id:"",name:'All Genres'},...data]
     //    this.setState({movies:getMovies(),genres:getGenres()}) ;
-    this.setState({movies:getMovies(),genres}) ;
+     const {data : movies}=await getMovies()
+
+    this.setState({movies,genres}) ;
 
     };
 
     // Handling Delete
-    handleDelete = (movie)=>{
+    handleDelete = async movie =>{
+        const orignalMovies=this.state.movies;
         //contain all movie except clicked movies
-        const movies =this.state.movies.filter(m => m._id !== movie._id);
+        const movies =orignalMovies.filter(m => m._id !== movie._id);
         //in modern js if key==value so
         //Also this.setState({movies:movies})
         this.setState({movies});
+
+        try {
+            await deleteMovie(movie._id);
+        }
+        catch(ex){
+            if(ex.response && ex.response.status === 404)
+            toast.error("Movie already been deleted");
+          
+            
+            this.setState({movies : orignalMovies});
+        }
     };
     handlelike= (movie) => {
         console.log(movie);
@@ -75,14 +90,15 @@ const{pagesize,
     sortColumn,
     selectedgenre,
     searchQuery,
-    movies : allmovies}=this.state;
-let filtered=allmovies;
+    movies : allMovies
+}=this.state;
+let filtered=allMovies;
 if (searchQuery)
-filtered = allmovies.filter(m =>
+filtered = allMovies.filter(m =>
   m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
 );
 else if (selectedgenre && selectedgenre._id)
-filtered = allmovies.filter(m => m.genre._id === selectedgenre._id);
+filtered = allMovies.filter(m => m.genre._id === selectedgenre._id);
 // const filtered =selectedgenre && selectedgenre._id
 // ? allmovies.filter() 
 // : allmovies;

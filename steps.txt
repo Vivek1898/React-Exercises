@@ -6,3 +6,5 @@ npm run eject--->config
 npm i joi-browser
 npm i axios
 npm i react-toastpfy@4.1  
+npm i bcrypt@5.0.0
+npm i jwt-decode@2.2.0

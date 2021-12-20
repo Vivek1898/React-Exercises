@@ -2,6 +2,7 @@ import React from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
 import Input from './common/input';
+import {login} from "../services/authService";
 
 class LoginForm extends Form {
 // username=React.createRef();
@@ -14,8 +15,24 @@ state={
     errors:{}
 };
 
-    doSubmit=()=>{
-       
+    doSubmit= async ()=>{
+
+        try {
+            const {data}=this.state;
+            //Store jwt on login
+        const {data:jwt}  =  await  login(data.username,data.password);
+        localStorage.setItem("token",jwt);
+        //redirect using history
+        window.location="/";
+            
+        } catch (ex) {
+            if(ex.response && ex.response.status === 400){
+              const errors= {...this.state.errors};
+              errors.username=ex.response.data;
+              this.setState({errors});
+            }
+        }
+     
         //Call server
         console.log("Submitted");
     }
