@@ -4,6 +4,8 @@ import {apiUrl} from "../config.json";
 
 const api=apiUrl+"/auth";
 const tokenkey="token";
+//Reverse order due to bi directional dependicies
+http.setJwt(getJwt());
 
 export async function login(email,password) {
     const {data:jwt}  =  await http.post(api,{email,password});
@@ -31,10 +33,18 @@ export function getCurrenUser(){
         //No valiad web token
       }
 }
+
+//Api end pont with headers--->call from http module
+export function getJwt(){
+    return localStorage.getItem(tokenkey);
+}
+
+
 export default{
     login,
     loginWithJwt,
     logout,
-    getCurrenUser
+    getCurrenUser,
+    getJwt
 
 }

@@ -123,7 +123,7 @@ return {totalCount : filtered.length,data:movies};
         const{ length :count}=this.state.movies;
 
         const{pagesize,currentpage,sortColumn,searchQuery}=this.state;
-
+        const{user}=this.props;
 
         if(count ===0)
         return <p>There are no movies in Database</p>
@@ -143,15 +143,15 @@ return {totalCount : filtered.length,data:movies};
      />
 </div>
 <div className="col"> 
-<Link
+{user && (<Link
 to="/movies/new"
 className="btn btn-primary"
 style={{marginBottom:20}}
 >
 
 New Movie
-</Link>
-
+</Link>)
+}
 
 
 <p>Showing {totalCount} movies in database.</p>
